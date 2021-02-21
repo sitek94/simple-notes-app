@@ -5,9 +5,13 @@ import notes from '../test/notes.json'
 import { NotesServices } from '../services/notes'
 import { Note } from '../types'
 
-import { Button, Row, Col } from 'antd'
+import { Button, Row, Col, Layout, Typography } from 'antd'
+import { PlusOutlined } from '@ant-design/icons'
 import { NotesList } from './notes-list'
 import { NoteForm } from './note-form'
+
+const { Title } = Typography
+const { Content: AntContent, Header: AntHeader } = Layout
 
 const unselectedNote: Note = {
   id: '',
@@ -24,35 +28,56 @@ function App({ service }: Props) {
   function onSelect(note: Note) {}
 
   return (
-    <Container>
-      <Row justify="space-between" align="middle">
-        <h1>Simple Notes App</h1>
-        <Button type="primary">New Note</Button>
-      </Row>
-      <Row>
-        <Col span={8}>
-          <NotesList
-            notes={notes}
-            onSelect={onSelect}
-            selectedNoteId={notes[0].id}
-          />
-        </Col>
-        <Col span={16}>
-          <NoteForm
-            note={unselectedNote}
-            onSubmit={() => {}}
-            onCancel={() => {}}
-          />
-        </Col>
-      </Row>
-    </Container>
+    <Layout>
+      <Header>
+        <Title level={1}>Simple Notes App</Title>
+        <Button
+          type="primary"
+          size="large"
+          shape="round"
+          icon={<PlusOutlined />}
+        >
+          New Note
+        </Button>
+      </Header>
+      <Content>
+        <Row>
+          <Col span={8}>
+            <NotesList
+              notes={notes}
+              onSelect={onSelect}
+              selectedNoteId={notes[0].id}
+            />
+          </Col>
+          <Col span={16}>
+            <NoteForm
+              note={unselectedNote}
+              onSubmit={() => {}}
+              onCancel={() => {}}
+            />
+          </Col>
+        </Row>
+      </Content>
+    </Layout>
   )
 }
 
-const Container = styled.div`
+const Header = styled(AntHeader)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h1 {
+    color: #fff;
+    margin-bottom: 0;
+  }
+`
+const Content = styled(AntContent)`
   height: 100vh;
   max-width: 1000px;
+  width: 100%;
   margin: 0 auto;
+  padding: 25px;
+  background-color: #fff;
 `
-
 export { App }

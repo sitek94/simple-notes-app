@@ -11,11 +11,11 @@ interface Props {
 
 const layout = {
   labelCol: { span: 4 },
-  wrapperCol: { span: 16 },
+  wrapperCol: { span: 15 },
 }
 
 const tailLayout = {
-  wrapperCol: { offset: 4, span: 16 },
+  wrapperCol: { offset: 4, span: 15 },
 }
 
 function NoteForm({ note, onSubmit, onCancel }: Props) {
