@@ -13,10 +13,14 @@ function NotesList({
   onSelect = (note: Note) => {},
 }: Props) {
   return (
-    <Menu>
-      {notes.map(({ id, title }) => (
-        <Menu.Item key={id} data-testid="note-item">
-          {title}
+    <Menu selectable={false}>
+      {notes.map((note) => (
+        <Menu.Item
+          key={note.id}
+          data-testid="note-item"
+          onClick={() => onSelect(note)}
+        >
+          {note.title}
         </Menu.Item>
       ))}
     </Menu>
