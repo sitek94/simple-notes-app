@@ -1,16 +1,18 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
+import notes from '../test/notes.json'
 import { NotesServices } from '../services/notes'
 import { Note } from '../types'
 
 import { Button, Row, Col } from 'antd'
 import { NotesList } from './notes-list'
+import { NoteForm } from './note-form'
 
 const unselectedNote: Note = {
   id: '',
   title: '',
-  text: ''
+  text: '',
 }
 
 interface Props {
@@ -18,7 +20,6 @@ interface Props {
 }
 
 function App({ service }: Props) {
-
   // Handle selection of a task from the list
   function onSelect(note: Note) {}
 
@@ -30,14 +31,18 @@ function App({ service }: Props) {
       </Row>
       <Row>
         <Col span={8}>
-          <NotesList 
-            notes={[]}
+          <NotesList
+            notes={notes}
             onSelect={onSelect}
-            selectedNoteId={unselectedNote.id}
+            selectedNoteId={notes[0].id}
           />
         </Col>
         <Col span={16}>
-          <form>TODO:</form>
+          <NoteForm
+            note={unselectedNote}
+            onSubmit={() => {}}
+            onCancel={() => {}}
+          />
         </Col>
       </Row>
     </Container>
