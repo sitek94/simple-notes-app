@@ -17,6 +17,7 @@ function NotesList({
       {notes.map((note) => (
         <Menu.Item
           key={note.id}
+          className={selectedNoteId === note.id ? 'ant-menu-item-selected' : ''}
           data-testid="note-item"
           onClick={() => onSelect(note)}
         >

@@ -25,4 +25,14 @@ describe('NotesList Component', () => {
     // then
     expect(onSelect).toHaveBeenCalledWith(notes[1])
   })
+
+  it('should add `ant-menu-item-selected` class to the note with `id` that matches `selectedNoteId`', () => {
+    // given
+    const note = notes[1]
+    render(<NotesList notes={notes} selectedNoteId={note.id} />)
+
+    // then
+    const noteItem = screen.getByText(note.title)
+    expect(noteItem).toHaveClass('ant-menu-item-selected')
+  })
 })
