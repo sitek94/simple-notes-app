@@ -1,9 +1,10 @@
+import { Menu } from 'antd'
 import { Note, Notes } from '../types'
 
 interface Props {
   notes: Notes
-  selectedNoteId: Note['id']
-  onSelect: (note: Note) => void
+  selectedNoteId?: Note['id']
+  onSelect?: (note: Note) => void
 }
 
 function NotesList({
@@ -12,12 +13,13 @@ function NotesList({
   onSelect = (note: Note) => {},
 }: Props) {
   return (
-    <div>
-      <ul>
-        <li>Note placeholder</li>
-        <li>Active Note placeholder</li>
-      </ul>
-    </div>
+    <Menu>
+      {notes.map(({ id, title }) => (
+        <Menu.Item key={id} data-testid="note-item">
+          {title}
+        </Menu.Item>
+      ))}
+    </Menu>
   )
 }
 
