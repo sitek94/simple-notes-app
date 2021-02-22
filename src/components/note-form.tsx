@@ -9,13 +9,29 @@ interface Props {
   onCancel: () => void
 }
 
+interface FormValues {
+  title: Note['title']
+  text: Note['text']
+}
+
 function NoteForm({ note, onSubmit, onCancel }: Props) {
-  function handleSubmit(event: React.FormEvent) {
-    event.preventDefault()
+  function handleSubmit({ title, text }: FormValues) {
+    onSubmit({
+      id: note.id,
+      title,
+      text,
+    })
   }
 
   return (
-    <Form  layout="vertical" onFinish={handleSubmit}>
+    <Form
+      layout="vertical"
+      onFinish={handleSubmit}
+      initialValues={{
+        title: note.title,
+        text: note.text,
+      }}
+    >
       <Form.Item label="Title" name="title">
         <Input data-testid="input-title" />
       </Form.Item>
