@@ -13,7 +13,7 @@ function NotesList({
   onSelect = (note: Note) => {},
 }: Props) {
   return (
-    <Menu selectable={false}>
+    <Menu data-testid="notes-list" selectable={false}>
       {notes.map((note) => (
         <Menu.Item
           key={note.id}

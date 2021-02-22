@@ -25,6 +25,7 @@ function NoteForm({ note, onSubmit, onCancel }: Props) {
 
   return (
     <Form
+      data-testid="note-form"
       layout="vertical"
       onFinish={handleSubmit}
       initialValues={{

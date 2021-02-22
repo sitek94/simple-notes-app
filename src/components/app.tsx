@@ -5,12 +5,12 @@ import notes from '../test/notes.json'
 import { NotesServices } from '../services/notes'
 import { Note } from '../types'
 
-import { Button, Row, Col, Layout, Typography } from 'antd'
+import { Button, Empty, Row, Col, Layout, Typography } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { NotesList } from './notes-list'
 import { NoteForm } from './note-form'
 
-const { Title } = Typography
+const { Title, Text } = Typography
 const { Content: AntContent, Header: AntHeader } = Layout
 
 const unselectedNote: Note = {
@@ -24,6 +24,8 @@ interface Props {
 }
 
 function App({ service }: Props) {
+  const [selectedNote, setSelectedNote] = React.useState<Note | null>(null)
+
   // Handle selection of a task from the list
   function onSelect(note: Note) {}
 
@@ -52,11 +54,15 @@ function App({ service }: Props) {
             />
           </Col>
           <Col span={18}>
-            <NoteForm
-              note={unselectedNote}
-              onSubmit={() => {}}
-              onCancel={() => {}}
-            />
+            {selectedNote ? (
+              <NoteForm
+                note={selectedNote}
+                onSubmit={() => {}}
+                onCancel={() => {}}
+              />
+            ) : (
+              <Empty description="Select a note to edit or create a new one" />
+            )}
           </Col>
         </Row>
       </Content>
