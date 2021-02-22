@@ -9,22 +9,13 @@ interface Props {
   onCancel: () => void
 }
 
-const layout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 15 },
-}
-
-const tailLayout = {
-  wrapperCol: { offset: 4, span: 15 },
-}
-
 function NoteForm({ note, onSubmit, onCancel }: Props) {
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault()
   }
 
   return (
-    <Form {...layout} size="large" onFinish={handleSubmit}>
+    <Form  layout="vertical" onFinish={handleSubmit}>
       <Form.Item label="Title" name="title">
         <Input data-testid="input-title" />
       </Form.Item>
@@ -33,7 +24,7 @@ function NoteForm({ note, onSubmit, onCancel }: Props) {
         <Input.TextArea data-testid="input-text" />
       </Form.Item>
 
-      <Form.Item {...tailLayout}>
+      <Form.Item>
         <Button type="primary" htmlType="submit" data-testid="save-note">
           Save
         </Button>

@@ -30,26 +30,28 @@ function App({ service }: Props) {
   return (
     <Layout>
       <Header>
-        <Title level={1}>Simple Notes App</Title>
-        <Button
-          type="primary"
-          size="large"
-          shape="round"
-          icon={<PlusOutlined />}
-        >
-          New Note
-        </Button>
+        <HeaderRow justify="space-between" align="middle">
+          <Title level={1}>Simple Notes App</Title>
+          <Button
+            type="primary"
+            size="large"
+            shape="round"
+            icon={<PlusOutlined />}
+          >
+            New Note
+          </Button>
+        </HeaderRow>
       </Header>
       <Content>
-        <Row>
-          <Col span={8}>
+        <Row gutter={24}>
+          <Col span={6}>
             <NotesList
               notes={notes}
               onSelect={onSelect}
               selectedNoteId={notes[0].id}
             />
           </Col>
-          <Col span={16}>
+          <Col span={18}>
             <NoteForm
               note={unselectedNote}
               onSubmit={() => {}}
@@ -63,21 +65,24 @@ function App({ service }: Props) {
 }
 
 const Header = styled(AntHeader)`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
   h1 {
     color: #fff;
     margin-bottom: 0;
   }
 `
+const HeaderRow = styled(Row)`
+  max-width: 1000px;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+`
+
 const Content = styled(AntContent)`
   height: 100vh;
   max-width: 1000px;
   width: 100%;
   margin: 0 auto;
-  padding: 25px;
+  padding: 24px;
   background-color: #fff;
 `
 export { App }
