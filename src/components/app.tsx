@@ -33,7 +33,9 @@ function App({ service }: Props) {
   }, [service, setNotes])
 
   // Handle selection of a task from the list
-  function onSelect(note: Note) {}
+  function onSelect(note: Note) {
+    setSelectedNote(note)
+  }
 
   return (
     <Layout>
@@ -62,6 +64,7 @@ function App({ service }: Props) {
           <Col span={18}>
             {selectedNote ? (
               <NoteForm
+                key={selectedNote.id}
                 note={selectedNote}
                 onSubmit={() => {}}
                 onCancel={() => {}}

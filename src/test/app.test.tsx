@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 import { createMockService, flushPromises } from './utils'
 import { App } from '../components/app'
@@ -38,5 +39,24 @@ describe('App Component', () => {
     // then
     expect(mockService.getNotes).toHaveBeenCalled()
     expect(screen.getAllByTestId('note-item')).toHaveLength(originalLength)
+  })
+
+  it('when existing note is clicked it should be highlighted on the list and form should be visible with its deatils', async () => {
+    // given
+    const mockService = createMockService(notes)
+    const note = notes[0]
+    render(<App service={mockService} />)
+    await flushPromises() // HTTP data exchange
+    const noteItem = screen.getByText(note.title)
+
+    // when
+    userEvent.click(noteItem)
+
+    const inputTitle = screen.getByRole('textbox', { name: /title/i })
+    const inputNote = screen.getByRole('textbox', { name: /note/i })
+
+    // then
+    expect(inputTitle).toHaveValue(note.title)
+    expect(inputNote).toHaveValue(note.text)
   })
 })
