@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { createMockService, flushPromises } from './utils'
@@ -58,5 +58,25 @@ describe('App Component', () => {
     // then
     expect(inputTitle).toHaveValue(note.title)
     expect(inputNote).toHaveValue(note.text)
+  })
+
+  it('should show note form with empty note after new note is clicked', async () => {
+    // given
+    const mockService = createMockService(notes)
+    render(<App service={mockService} />)
+    await flushPromises() // HTTP data exchange
+
+    // when
+    await act(async () => {
+      userEvent.click(screen.getByRole('button', { name: /plus new note/i }))
+    })
+
+    // then
+    const inputTitle = screen.getByRole('textbox', { name: /title/i })
+    const inputNote = screen.getByRole('textbox', { name: /note/i })
+
+    expect(inputTitle).toHaveValue('')
+    expect(inputNote).toHaveValue('')
+    expect(mockService.createNote).toHaveBeenCalledTimes(1)
   })
 })

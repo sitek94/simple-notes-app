@@ -32,6 +32,17 @@ function App({ service }: Props) {
     })()
   }, [service, setNotes])
 
+  // Handle "New note" click
+  async function newNote() {
+    try {
+      const emptyNote = await service.createNote()
+
+      setSelectedNote(emptyNote)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   // Handle selection of a task from the list
   function onSelect(note: Note) {
     setSelectedNote(note)
@@ -47,6 +58,7 @@ function App({ service }: Props) {
             size="large"
             shape="round"
             icon={<PlusOutlined />}
+            onClick={newNote}
           >
             New Note
           </Button>
