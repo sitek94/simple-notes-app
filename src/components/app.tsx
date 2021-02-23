@@ -1,30 +1,36 @@
 import * as React from 'react'
 import styled from 'styled-components'
 
-import notes from '../test/notes.json'
 import { NotesServices } from '../services/notes'
-import { Note } from '../types'
+import { Note, Notes } from '../types'
 
 import { Button, Empty, Row, Col, Layout, Typography } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { NotesList } from './notes-list'
 import { NoteForm } from './note-form'
 
-const { Title, Text } = Typography
+const { Title } = Typography
 const { Content: AntContent, Header: AntHeader } = Layout
-
-const unselectedNote: Note = {
-  id: '',
-  title: '',
-  text: '',
-}
 
 interface Props {
   service: NotesServices
 }
 
 function App({ service }: Props) {
+  const [notes, setNotes] = React.useState<Notes>([])
   const [selectedNote, setSelectedNote] = React.useState<Note | null>(null)
+
+  React.useEffect(() => {
+    ;(async function fetchNotes() {
+      try {
+        const fetchedNotes = await service.getNotes()
+
+        setNotes(fetchedNotes)
+      } catch (error) {
+        console.log(error)
+      }
+    })()
+  }, [service, setNotes])
 
   // Handle selection of a task from the list
   function onSelect(note: Note) {}
@@ -50,7 +56,7 @@ function App({ service }: Props) {
             <NotesList
               notes={notes}
               onSelect={onSelect}
-              selectedNoteId={notes[0].id}
+              selectedNoteId={selectedNote?.id}
             />
           </Col>
           <Col span={18}>
@@ -76,6 +82,7 @@ const Header = styled(AntHeader)`
     margin-bottom: 0;
   }
 `
+
 const HeaderRow = styled(Row)`
   max-width: 1000px;
   width: 100%;
@@ -91,4 +98,5 @@ const Content = styled(AntContent)`
   padding: 24px;
   background-color: #fff;
 `
+
 export { App }

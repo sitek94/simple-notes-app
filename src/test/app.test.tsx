@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 
 import { createMockService, flushPromises } from './utils'
 import { App } from '../components/app'
@@ -27,5 +26,16 @@ describe('App Component', () => {
     // then
     expect(screen.queryByTestId('notes-list')).toBeInTheDocument()
     expect(screen.queryByTestId('note-form')).toBeNull()
+  })
+
+  it('should fetch notes from notesService when rendered', async () => {
+    // given
+    const mockService = createMockService(notes)
+    render(<App service={mockService} />)
+    await flushPromises() // HTTP data exchange
+
+    // then
+    expect(screen.getByText(notes[0].title)).toBeInTheDocument()
+    expect(screen.getByText(notes[1].title)).toBeInTheDocument()
   })
 })
