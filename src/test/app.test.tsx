@@ -31,11 +31,12 @@ describe('App Component', () => {
   it('should fetch notes from notesService when rendered', async () => {
     // given
     const mockService = createMockService(notes)
+    const originalLength = mockService.notes.length
     render(<App service={mockService} />)
     await flushPromises() // HTTP data exchange
 
     // then
-    expect(screen.getByText(notes[0].title)).toBeInTheDocument()
-    expect(screen.getByText(notes[1].title)).toBeInTheDocument()
+    expect(mockService.getNotes).toHaveBeenCalled()
+    expect(screen.getAllByTestId('note-item')).toHaveLength(originalLength)
   })
 })
