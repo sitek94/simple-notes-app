@@ -1,4 +1,5 @@
 import { act } from 'react-dom/test-utils'
+import { mocked } from 'ts-jest/utils'
 import _flushPromises from 'flush-promises'
 
 import { NotesServices } from '../services/notes'
@@ -16,7 +17,7 @@ export const flushPromises = async () => {
  * Creates mocked Notes Service.
  */
 export function createMockService(notesData: Notes) {
-  const svc = new NotesServices(notesData)
+  const svc = mocked(new NotesServices(notesData))
   jest.spyOn(svc, 'getNotes')
   jest.spyOn(svc, 'createNote')
   jest.spyOn(svc, 'saveNote')
