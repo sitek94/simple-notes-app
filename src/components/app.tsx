@@ -43,6 +43,19 @@ function App({ service }: Props) {
     }
   }
 
+  // Handle NoteForm submit and save the note
+  async function onSubmit(note: Note) {
+    try {
+      await service.saveNote(note)
+
+      const updatedNotes = await service.getNotes()
+
+      setNotes(updatedNotes)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   // Handle selection of a task from the list
   function onSelect(note: Note) {
     setSelectedNote(note)
@@ -83,7 +96,7 @@ function App({ service }: Props) {
               <NoteForm
                 key={selectedNote.id}
                 note={selectedNote}
-                onSubmit={() => {}}
+                onSubmit={onSubmit}
                 onCancel={onCancel}
               />
             ) : (

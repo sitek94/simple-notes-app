@@ -106,4 +106,38 @@ describe('App Component', () => {
       notes[0].title
     )
   })
+
+  it('should add a new note to the list after the form is submitted', async () => {
+    // given
+    const mockService = createMockService(notes)
+    render(<App service={mockService} />)
+    await flushPromises() // HTTP data exchange
+
+    // when
+    await act(async () => {
+      await userEvent.click(
+        screen.getByRole('button', { name: /plus new note/i })
+      )
+      userEvent.type(
+        screen.getByRole('textbox', { name: /title/i }),
+        'new note title'
+      )
+      userEvent.type(
+        screen.getByRole('textbox', { name: /note/i }),
+        'new note body'
+      )
+      userEvent.click(screen.getByRole('button', { name: /save/i }))
+    })
+
+    // then
+    expect(mockService.saveNote.mock.calls[0][0]).toMatchObject({
+      title: 'new note title',
+      text: 'new note body',
+    })
+    expect(mockService.saveNote).toHaveBeenCalledTimes(1)
+    expect(mockService.getNotes).toHaveBeenCalledTimes(2)
+    expect(screen.getAllByTestId('note-item')).toHaveLength(
+      mockService.notes.length
+    )
+  })
 })
