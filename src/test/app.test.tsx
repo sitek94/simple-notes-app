@@ -52,10 +52,10 @@ describe('App Component', () => {
     // when
     userEvent.click(noteItem)
 
+    // then
     const inputTitle = screen.getByRole('textbox', { name: /title/i })
     const inputNote = screen.getByRole('textbox', { name: /note/i })
 
-    // then
     expect(inputTitle).toHaveValue(note.title)
     expect(inputNote).toHaveValue(note.text)
   })
@@ -78,5 +78,32 @@ describe('App Component', () => {
     expect(inputTitle).toHaveValue('')
     expect(inputNote).toHaveValue('')
     expect(mockService.createNote).toHaveBeenCalledTimes(1)
+  })
+
+  it('should deselect note and hide the form when clicking on cancel', async () => {
+    // given
+    const mockService = createMockService(notes)
+    const { container } = render(<App service={mockService} />)
+    await flushPromises() // HTTP data exchange
+
+    // then
+    expect(mockService.getNotes).toHaveBeenCalledTimes(1)
+
+    // when
+    userEvent.click(screen.getAllByTestId('note-item')[0])
+    userEvent.type(
+      screen.getByRole('textbox', { name: /title/i }),
+      'changed title'
+    )
+    userEvent.click(screen.getByRole('button', { name: /cancel/i }))
+    await flushPromises() // HTTP data exchange
+
+    // then
+    expect(
+      container.querySelector('[data-testid=notee-item].ant-menu-item-selected')
+    ).toBeNull()
+    expect(screen.getAllByTestId('note-item')[0]).toHaveTextContent(
+      notes[0].title
+    )
   })
 })

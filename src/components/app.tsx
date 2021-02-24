@@ -48,6 +48,11 @@ function App({ service }: Props) {
     setSelectedNote(note)
   }
 
+  // Handle cancel of note editing/creating
+  function onCancel() {
+    setSelectedNote(null)
+  }
+
   return (
     <Layout>
       <Header>
@@ -79,7 +84,7 @@ function App({ service }: Props) {
                 key={selectedNote.id}
                 note={selectedNote}
                 onSubmit={() => {}}
-                onCancel={() => {}}
+                onCancel={onCancel}
               />
             ) : (
               <Empty description="Select a note to edit or create a new one" />
