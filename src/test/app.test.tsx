@@ -140,4 +140,27 @@ describe('App Component', () => {
       mockService.notes.length
     )
   })
+
+  it('should update the list when existing note is saved', async () => {
+    // given
+    const mockService = createMockService(notes)
+    render(<App service={mockService} />)
+    await flushPromises() // HTTP data exchange
+
+    // when
+    userEvent.click(screen.getAllByTestId('note-item')[0])
+    userEvent.type(
+      screen.getByRole('textbox', { name: /title/i }),
+      'changed title'
+    )
+    userEvent.click(screen.getByRole('button', { name: /save/i }))
+    await flushPromises() // HTTP data exchanget
+
+    expect(mockService.saveNote).toHaveBeenCalledTimes(1)
+    expect(mockService.getNotes).toHaveBeenCalledTimes(2)
+
+    // then
+    const item = screen.getAllByTestId('note-item')[0]
+    expect(item).toHaveTextContent('changed title')
+  })
 })
